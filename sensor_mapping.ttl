@@ -1,0 +1,116 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix rml: <http://semweb.mmlab.be/ns/rml#> .
+@prefix ql: <http://semweb.mmlab.be/ns/ql#> .
+@prefix schema: <http://schema.org/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix sosa: <http://www.w3.org/ns/sosa/> .
+@prefix ex: <http://www.example.org/ns/> .
+@prefix qudt: <http://qudt.org/vocab/quantity#> .
+
+<TriplesMap1>	
+	rml:logicalSource [ rml:source "sensor_data_temperature_humidity_events.csv";
+						rml:referenceFormulation ql:CSV 
+						];
+	rr:subjectMap [ 
+    rr:template "http://example.com/observations/observation_{ID}";
+    rr:class sosa:Observation
+   ];
+
+    rr:predicateObjectMap [ 
+		rr:predicate sosa:hasResult ;
+		rr:objectMap [
+			rr:template "http://example.com/results/result_{ID}"
+		];   
+	];
+
+  rr:predicateObjectMap [ 
+		rr:predicate sosa:resultTime ;
+		rr:objectMap [
+			rr:reference "DateTime"
+		];   
+	];
+
+    rr:predicateObjectMap [
+		rr:predicate ex:hasEvent;
+		rr:objectMap [
+			rr:parentTriplesMap <TriplesMap2>;
+			rr:joinCondition [
+				rr:child "EventID";
+				rr:parent "EventID";
+			];
+		];
+	];
+
+	rr:predicateObjectMap [
+		rr:predicate sosa:hasResult;
+		rr:objectMap [
+			rr:parentTriplesMap <TriplesMap3>;
+			rr:joinCondition [
+				rr:child "DateTime";
+				rr:parent "DateTime";
+			];
+		];
+	].	
+
+<TriplesMap2>
+  a rr:TriplesMap;
+
+  rml:logicalSource [ 
+    rml:source "event_data.csv";
+    rml:referenceFormulation ql:CSV
+  ];
+
+  rr:subjectMap [ 
+    rr:template "http://example.com/events/{EventName}";
+  ].
+
+<TriplesMap3>
+  a rr:TriplesMap;
+
+  rml:logicalSource [ 
+    rml:source "sensor_data_light_air_quality.csv";
+    rml:referenceFormulation ql:CSV
+  ];
+
+  rr:subjectMap [ 
+    rr:template "http://example.com/LightIntensityResults/{DateTime}";
+  ];
+
+  rr:predicateObjectMap [ 
+    rr:predicate qudt:numericValue ;
+    rr:objectMap [ 
+        rml:reference "LightIntensity";
+        rr:datatype xsd:double 
+    ];
+  ];
+
+  rr:predicateObjectMap [ 
+    rr:predicate qudt:unit ;
+    rr:objectMap [ rr:template "https://qudt.org/vocab/unit/LUX"];
+  ] .
+
+<TriplesMap4>
+  a rr:TriplesMap;
+
+  rml:logicalSource [ 
+    rml:source "sensor_data_temperature_humidity_events.csv";
+    rml:referenceFormulation ql:CSV
+  ];
+
+  rr:subjectMap [ 
+    rr:template "http://example.com/results/result_{ID}";
+    rr:class qudt:QuantityValue
+   ];
+	
+  rr:predicateObjectMap [ 
+    rr:predicate qudt:numericValue ;
+    rr:objectMap [ 
+        rml:reference "Temperature";
+        rr:datatype xsd:double 
+    ];
+  ];
+
+  rr:predicateObjectMap [ 
+    rr:predicate qudt:unit ;
+    rr:objectMap [ rr:template "https://qudt.org/vocab/unit/DEG_C" ];
+  ] .
