@@ -112,5 +112,5 @@
 
   rr:predicateObjectMap [ 
     rr:predicate qudt:unit ;
-    rr:objectMap [ rr:template "https://qudt.org/vocab/unit/DEG_C" ];
+    rr:objectMap [ rr:constant "https://qudt.org/vocab/unit/DEG_C" ];
   ] .
