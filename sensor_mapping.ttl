@@ -86,7 +86,7 @@
 
   rr:predicateObjectMap [ 
     rr:predicate qudt:unit ;
-    rr:objectMap [ rr:template "https://qudt.org/vocab/unit/LUX"];
+    rr:objectMap [ rr:constant "https://qudt.org/vocab/unit/LUX"];
   ] .
 
 <TriplesMap4>
