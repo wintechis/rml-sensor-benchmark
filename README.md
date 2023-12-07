@@ -23,3 +23,9 @@ To generate a dataset, follow these steps:
 4. Place the provided `sensor_mapping.ttl` file in the generated directories and execute the mappings using an RML processor.
 
 In the default configuration, datasets with scales of 15, 25, and 55 are generated.
+
+## Planned Improvements:
+- [ ] Support additional data formats for dataset generation relevant to IoT devices
+     + [ ] Implement JSON dataset generation
+     + [ ] Implement XML dataset generation
+- [ ] Develop a Docker container for dataset creation
